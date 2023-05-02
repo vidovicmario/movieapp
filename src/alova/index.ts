@@ -10,14 +10,12 @@ const alovaInstance = createAlova({
       if (response.status !== 200) {
         throw new Error(response.statusText);
       }
-      // data that will be passed to the transformData hook
       return await response.json();
     },
     onError: (error) => {
       alert(error.message);
     },
   },
-  // global request timeout in milliseconds
   timeout: 50000,
 });
 export default alovaInstance;
