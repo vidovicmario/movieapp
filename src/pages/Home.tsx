@@ -1,13 +1,12 @@
 //import CardList from "../components/CardList";
-import MovieCard from "../components/MovieCard";
+import CardList from "../components/CardList";
+import { Space } from "antd";
 
 function Home() {
   return (
-    <>
-      <h1>
-        <MovieCard />
-      </h1>
-    </>
+    <Space align="start">
+      <CardList />
+    </Space>
   );
 }
 

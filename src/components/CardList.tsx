@@ -1,37 +1,40 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRequest } from "alova";
 import listGetter from "../alova/listGetter";
+import MovieCard from "./MovieCard";
+import { Row, Col } from "antd";
+import { Movie } from "./MovieCard";
 
-interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-}
+function CardList() {
+  const [movieList, setMovieList] = useState<Movie[]>([]);
 
-const CardList: React.FC = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-
+  const { data } = useRequest(listGetter, { initialData: [] });
   useEffect(() => {
-    // Fetch the list of movies when the component mounts
-    listGetter(1, 10).then((data: { results: Movie[] }) =>
-      setMovies(
-        data.results.map((movie) => ({
-          ...movie,
-          poster_path: `http://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        }))
-      )
-    );
-  }, []);
+    console.log(data);
+
+    setMovieList(data);
+  }, [data]);
 
   return (
     <div>
-      <h1>Movie List</h1>
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.id}>{movie.title}</li>
+      <Row gutter={[16, 16]}>
+        {movieList.map((item) => (
+          <Col key={item.id}>
+            <div>
+              <MovieCard item={item} />
+            </div>
+          </Col>
         ))}
-      </ul>
+      </Row>
     </div>
   );
-};
+}
 
 export default CardList;
+//import { css } from "@emotion/react";
+
+// const cardGrid = css`
+//   display: grid;
+//   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+//   grid-gap: 20px;
+// `;
